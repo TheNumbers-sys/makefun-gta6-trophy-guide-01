@@ -4,20 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10101a">
+  <meta name="description" content="An offline, spoiler-aware checklist and roadmap for the supplied 55-trophy GTA VI list.">
   <title>Leonida Ledger — GTA VI Trophy Guide</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip-link" href="#checklist">Skip to the checklist</a>
   <header class="topbar">
     <a class="wordmark" href="#top" aria-label="Leonida Ledger home"><span class="sunmark" aria-hidden="true">◉</span> LEONIDA <b>LEDGER</b></a>
     <nav aria-label="Guide sections"><a href="#checklist">Trophy checklist</a><a href="#roadmap">Roadmap</a></nav>
-    <span class="offline"><i></i> OFFLINE GUIDE</span>
+    <span class="offline"><i aria-hidden="true"></i> OFFLINE GUIDE</span>
   </header>
   <main id="top">
     <section class="hero" aria-labelledby="title">
       <div class="eyebrow">THE LEONIDA COMPLETION FILE <span>•</span> 55 TROPHIES</div>
       <h1 id="title">The road to <em>Legend.</em></h1>
-      <p class="lede">A practical, saveable field guide for every trophy on the supplied list.</p>
+      <p class="lede">Track all 55 entries, plan a four-phase route, and keep your notes on this device.</p>
       <aside class="honesty"><span aria-hidden="true">ⓘ</span><p>GTA VI has not released yet. This guide follows the official 55-trophy list as provided for this guide (Nov 2026). Each guide is marked Confirmed (trailer / official material) or Inferred (series precedent) — verify against the official list at launch.</p></aside>
       <div class="progress-panel" aria-label="Overall trophy progress">
         <div class="progress-head"><div><span class="progress-number" id="earned-count">0</span><span class="progress-total"> / 55 earned</span></div><strong id="percent">0%</strong></div>
@@ -36,7 +38,7 @@
         <label>Missable<select id="missable"><option value="all">Any</option><option value="yes">Missable</option><option value="no">Not marked missable</option></select></label>
         <label class="spoiler-control"><input id="spoilers" type="checkbox" checked> Hide spoilers</label>
       </div>
-      <div class="list-summary"><span id="result-count">55 trophies</span><span>Tap a row to mark earned · Open a card for the full guide</span></div>
+      <div class="list-summary"><span id="result-count" aria-live="polite" aria-atomic="true">55 trophies</span><span>Mark a trophy earned, or open a row to read its guide.</span></div>
       <div id="rows" class="trophy-list" aria-live="polite"></div>
       <p id="empty" class="empty" hidden>No trophies match these filters. Clear a filter or try a shorter search.</p>
     </section>

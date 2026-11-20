@@ -8,9 +8,22 @@ const trophies = trophyFile.trophies;
 const params = new URLSearchParams(location.search);
 const grades = ['platinum', 'gold', 'silver', 'bronze'];
 const icons = { platinum: '✦', gold: '◆', silver: '◇', bronze: '●' };
-const earned = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+function readEarned() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (!Array.isArray(saved)) return new Set();
+    const names = new Set(trophies.map((trophy) => trophy.name));
+    return new Set(saved.filter((name) => typeof name === 'string' && names.has(name)));
+  } catch {
+    return new Set();
+  }
+}
+const earned = readEarned();
 if (params.get('demo') === 'progress') {
-  [2, 3, 8, 16, 18, 35, 44].forEach((id) => earned.add(trophies.find((t) => t.id === id).name));
+  [2, 3, 8, 16, 18, 35, 44].forEach((id) => {
+    const trophy = trophies.find((entry) => entry.id === id);
+    if (trophy) earned.add(trophy.name);
+  });
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...earned]));
 }
 const ui = {
@@ -28,6 +41,7 @@ function safeTime(t) {
   const match = t.time.match(/([\d.]+)\s*[–-]?\s*([\d.]+)?\s*h/i);
   if (match) return Number(match[2] || match[1]);
   if (/story playthrough/i.test(t.time)) return 30;
+  if (/long-term/i.test(t.time)) return 20;
   if (/unknown/i.test(t.time)) return 1;
   const minutes = t.time.match(/([\d.]+)\s*[–-]?\s*([\d.]+)?\s*min/i);
   return minutes ? Number(minutes[2] || minutes[1]) / 60 : 0;
@@ -43,7 +57,7 @@ function updateProgress() {
   document.querySelector('#grade-counts').innerHTML = grades.map((grade) => {
     const done = trophies.filter((t) => t.grade === grade && earned.has(t.name)).length;
     const total = trophies.filter((t) => t.grade === grade).length;
-    return `<span class="grade-count ${grade}"><i>${icons[grade]}</i> ${done}/${total} ${grade}</span>`;
+    return `<span class="grade-count ${grade}"><i aria-hidden="true">${icons[grade]}</i> ${done}/${total} ${grade}</span>`;
   }).join('');
   const open = trophies.filter((t) => !earned.has(t.name) && t.id !== 1 && t.id !== 14);
   const remaining = open.reduce((sum, t) => sum + safeTime(t), 0) + (open.some((t) => t.time === 'story playthrough') ? 35 : 0);
@@ -73,7 +87,7 @@ function renderPhases() {
 function render() {
   const query = ui.search.value.trim().toLowerCase();
   const visible = trophies.filter((t) => {
-    const content = `${t.name} ${t.description} ${t.guide} ${t.source} ${t.category}`.toLowerCase();
+    const content = `${t.name} ${t.description} ${t.guide} ${t.source} ${t.category} ${t.confidence}`.toLowerCase();
     return (ui.grade.value === 'all' || t.grade === ui.grade.value)
       && (ui.category.value === 'all' || t.category === ui.category.value)
       && (ui.status.value === 'all' || (ui.status.value === 'earned') === earned.has(t.name))
@@ -85,7 +99,8 @@ function render() {
   document.querySelector('#result-count').textContent = `${visible.length} ${visible.length === 1 ? 'trophy' : 'trophies'}`;
   for (const t of visible) {
     const card = document.createElement('article');
-    card.className = `trophy-card ${earned.has(t.name) ? 'is-earned' : ''}`;
+    const stagedOpen = params.get('trophy') === String(t.id);
+    card.className = `trophy-card ${earned.has(t.name) ? 'is-earned' : ''} ${stagedOpen ? 'open selected-detail' : ''}`;
     card.dataset.id = String(t.id);
     const summary = document.createElement('div');
     summary.className = 'trophy-summary';
@@ -108,7 +123,7 @@ function render() {
     const badges = document.createElement('div'); badges.className = 'badges';
     badges.innerHTML = `<span class="badge category">${t.category}</span><span class="badge ${t.confidence}">${t.confidence === 'confirmed' ? '✓ Confirmed' : '◌ Inferred'}</span>${t.missable ? '<span class="badge missable">Missable</span>' : ''}`;
     const estimate = document.createElement('span'); estimate.className = 'estimate'; estimate.textContent = `${t.difficulty}/5 · ${t.time}`;
-    const toggle = document.createElement('button'); toggle.className = 'expand-button'; toggle.type = 'button'; toggle.textContent = '＋'; toggle.setAttribute('aria-label', `Show guide for ${t.name}`);
+    const toggle = document.createElement('button'); toggle.className = 'expand-button'; toggle.type = 'button'; toggle.textContent = stagedOpen ? '−' : '＋'; toggle.setAttribute('aria-label', `${stagedOpen ? 'Hide' : 'Show'} guide for ${t.name}`); toggle.setAttribute('aria-expanded', String(stagedOpen));
     summary.append(checkbox, gradeIcon, info, badges, estimate, toggle);
     const detail = document.createElement('div'); detail.className = 'trophy-detail';
     const guideHeading = document.createElement('h4'); guideHeading.textContent = 'FIELD GUIDE';
@@ -124,11 +139,11 @@ function render() {
       const open = card.classList.toggle('open');
       toggle.textContent = open ? '−' : '＋';
       toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', `${open ? 'Hide' : 'Show'} guide for ${t.name}`);
     });
-    summary.addEventListener('click', (event) => { if (event.target !== checkbox) toggle.click(); });
-    summary.tabIndex = 0;
-    summary.setAttribute('role', 'button');
-    summary.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle.click(); } });
+    summary.addEventListener('click', (event) => {
+      if (event.target !== checkbox && !event.target.closest('button')) toggle.click();
+    });
     card.append(summary, detail); ui.rows.append(card);
   }
 }
@@ -143,7 +158,9 @@ ui.spoilers.addEventListener('change', () => { localStorage.setItem(SPOILER_KEY,
 ui.search.addEventListener('input', render);
 document.querySelector('#export').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify({ version: 1, earned: [...earned] }, null, 2)], { type: 'application/json' });
-  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'leonida-ledger-progress.json'; link.click(); URL.revokeObjectURL(link.href);
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob); link.download = 'leonida-ledger-progress.json';
+  link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 });
 document.querySelector('#import').addEventListener('change', async (event) => {
   const file = event.target.files[0]; if (!file) return;
@@ -161,5 +178,11 @@ document.body.classList.add(`stage-${params.get('view') === 'roadmap' ? 'roadmap
 updateProgress(); renderPhases(); render();
 if (params.has('trophy')) {
   const target = document.querySelector(`.trophy-card[data-id="${CSS.escape(params.get('trophy'))}"]`);
-  if (target) { target.classList.add('open', 'selected-detail'); target.querySelector('.expand-button').textContent = '−'; }
+  if (target) {
+    target.classList.add('open', 'selected-detail');
+    const button = target.querySelector('.expand-button');
+    button.textContent = '−';
+    button.setAttribute('aria-expanded', 'true');
+    button.setAttribute('aria-label', `Hide guide for ${target.querySelector('h3').textContent}`);
+  }
 }

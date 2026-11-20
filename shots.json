@@ -1,6 +1,6 @@
 [
-  { "file": "1-cover.jpg", "path": "/?demo=progress", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "2-roadmap.jpg", "path": "/?view=roadmap", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "3-detail.jpg", "path": "/?trophy=2&spoilers=off", "viewport": { "width": 1280, "height": 800 } },
-  { "file": "4-filters.jpg", "path": "/?grade=silver", "viewport": { "width": 1280, "height": 800 } }
+  {"file":"1-cover.jpg","path":"/?demo=progress","viewport":{"width":1280,"height":800},"purpose":"Checklist showing saved demo progress and the completion bar"},
+  {"file":"2-roadmap.jpg","path":"/?view=roadmap","viewport":{"width":1280,"height":800},"purpose":"Four phases that route across all 55 trophies"},
+  {"file":"3-detail.jpg","path":"/?trophy=2&spoilers=off","viewport":{"width":1280,"height":800},"purpose":"Expanded trophy entry with its guide, source, and confidence"},
+  {"file":"4-filters.jpg","path":"/?grade=silver","viewport":{"width":1280,"height":800},"purpose":"Checklist filtered to silver trophies"}
 ]

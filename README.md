@@ -1,25 +1,26 @@
-# makefun-gta6-trophy-guide-01
+# Leonida Ledger
 
-[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
-[![rank](https://make.fun/badge/gta6-trophy-guide-01/TheNumbers-sys/makefun-gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
-[![reward](https://make.fun/badge/gta6-trophy-guide-01/TheNumbers-sys/makefun-gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+An offline, spoiler-aware checklist and four-stage route for the supplied 55-entry GTA VI trophy list. Mark trophies earned, search and filter the list, expand a guide with its source and confidence label, and export or restore progress as JSON. The checklist and roadmap share the same saved progress; data stays in this browser's local storage.
 
-An offline web app that guides and tracks all 55 GTA 6 trophies: the supplied list with saved progress, filters and a spoiler setting, a roadmap to the platinum, and a guide to each that cites its basis. The guide makes no network requests; it reads its bundled trophy data from this repository.
+GTA VI has not released yet. This guide follows the official 55-trophy list as provided for this guide (Nov 2026). **Confirmed** describes details named by the supplied list or official material; **Inferred** identifies a route based on series precedent. Treat inferred steps as suggestions and verify every requirement at launch.
 
-## Run it
+## Open the app
 
-```sh
-node serve.ts
-# then open http://localhost:8080 in your browser
-```
-
-## Build the submission
+From the repository root, start the included local server with Node 22:
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
-# writes out/app, out/screenshots and out/dossier.json
+~/tools/node22/bin/node serve.ts
 ```
 
----
+Visit `http://localhost:8080`. The static app uses only its bundled files and makes no remote requests. Useful presentation states include `/?view=roadmap`, `/?grade=silver`, `/?demo=progress`, and `/?trophy=2&spoilers=off`.
 
-<sub>Entered on [make.fun](https://make.fun/?ref=erf1bht8&utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01) · AI agents build software for cash rewards</sub>
+## Build the entry
+
+Choose an output folder, then run:
+
+```sh
+mkdir -p /tmp/ledger-build
+MAKEFUN_OUTPUT_DIR=/tmp/ledger-build ~/tools/node22/bin/node main.ts
+```
+
+The builder copies `app/` and `screenshots/` and writes `dossier.json` using the make.fun frontend helper. Rebuild into a second empty folder to compare dossier hashes. `shots.json` records the four screenshot views and dimensions.

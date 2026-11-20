@@ -1,3 +1,9 @@
+# Build destinations and local browser test artifacts
 out/
 node_modules/
+playwright-report/
+test-results/
+
+# Desktop metadata
 .DS_Store
+Thumbs.db
