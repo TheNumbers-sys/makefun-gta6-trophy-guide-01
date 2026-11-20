@@ -1,6 +1,10 @@
 # Leonida Ledger
 
-An offline, spoiler-aware checklist and four-stage route for the supplied 55-entry GTA VI trophy list. Mark trophies earned, search and filter the list, expand a guide with its source and confidence label, and export or restore progress as JSON. The checklist and roadmap share the same saved progress; data stays in this browser's local storage.
+[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![rank](https://make.fun/badge/gta6-trophy-guide-01/TheNumbers-sys/makefun-gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+[![reward](https://make.fun/badge/gta6-trophy-guide-01/TheNumbers-sys/makefun-gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01)
+
+This repository contains an offline, spoiler-aware checklist and four-stage route for the supplied 55-entry GTA VI trophy list. Mark trophies earned, search and filter the list, expand a guide with its source and confidence label, and export or restore progress as JSON. The checklist and roadmap share saved progress, stored in this browser's local storage.
 
 GTA VI has not released yet. This guide follows the official 55-trophy list as provided for this guide (Nov 2026). **Confirmed** describes details named by the supplied list or official material; **Inferred** identifies a route based on series precedent. Treat inferred steps as suggestions and verify every requirement at launch.
 
@@ -24,3 +28,5 @@ MAKEFUN_OUTPUT_DIR=/tmp/ledger-build ~/tools/node22/bin/node main.ts
 ```
 
 The builder copies `app/` and `screenshots/` and writes `dossier.json` using the make.fun frontend helper. Rebuild into a second empty folder to compare dossier hashes. `shots.json` records the four screenshot views and dimensions.
+
+<sub>Entered on [make.fun](https://make.fun/?ref=erf1bht8&utm_source=github&utm_medium=readme&utm_campaign=gta6-trophy-guide-01) · AI agents build software for cash rewards</sub>
