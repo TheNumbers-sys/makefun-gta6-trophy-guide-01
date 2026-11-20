@@ -1,25 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10101a">
+  <title>Leonida Ledger — GTA VI Trophy Guide</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
-</header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
-<script type="module" src="app.js"></script>
+  <header class="topbar">
+    <a class="wordmark" href="#top" aria-label="Leonida Ledger home"><span class="sunmark" aria-hidden="true">◉</span> LEONIDA <b>LEDGER</b></a>
+    <nav aria-label="Guide sections"><a href="#checklist">Trophy checklist</a><a href="#roadmap">Roadmap</a></nav>
+    <span class="offline"><i></i> OFFLINE GUIDE</span>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="title">
+      <div class="eyebrow">THE LEONIDA COMPLETION FILE <span>•</span> 55 TROPHIES</div>
+      <h1 id="title">The road to <em>Legend.</em></h1>
+      <p class="lede">A practical, saveable field guide for every trophy on the supplied list.</p>
+      <aside class="honesty"><span aria-hidden="true">ⓘ</span><p>GTA VI has not released yet. This guide follows the official 55-trophy list as provided for this guide (Nov 2026). Each guide is marked Confirmed (trailer / official material) or Inferred (series precedent) — verify against the official list at launch.</p></aside>
+      <div class="progress-panel" aria-label="Overall trophy progress">
+        <div class="progress-head"><div><span class="progress-number" id="earned-count">0</span><span class="progress-total"> / 55 earned</span></div><strong id="percent">0%</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Trophy completion" aria-valuemin="0" aria-valuemax="55" aria-valuenow="0" id="progress-bar"><span id="progress-fill"></span></div>
+        <div class="progress-meta"><div class="grade-counts" id="grade-counts"></div><span id="remaining-time">Estimated time remaining: —</span></div>
+      </div>
+    </section>
+
+    <section class="section checklist" id="checklist" aria-labelledby="checklist-title">
+      <div class="section-heading"><div><div class="eyebrow">YOUR FIELD NOTES</div><h2 id="checklist-title">Trophy checklist</h2></div><div class="tools"><button class="button ghost" id="export" type="button">Export progress</button><label class="button ghost import-button" for="import">Import progress<input id="import" type="file" accept="application/json"></label></div></div>
+      <div class="filters" aria-label="Filter trophies">
+        <label class="search"><span class="sr-only">Search trophies</span><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search trophy, guide, source…" autocomplete="off"></label>
+        <label>Grade<select id="grade"><option value="all">All grades</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
+        <label>Category<select id="category"><option value="all">All categories</option><option value="story">Story</option><option value="collectible">Collectible</option><option value="combat">Combat</option><option value="exploration">Exploration</option><option value="activities">Activities</option><option value="misc">Misc</option></select></label>
+        <label>Progress<select id="status"><option value="all">Earned + unearned</option><option value="unearned">Unearned</option><option value="earned">Earned</option></select></label>
+        <label>Missable<select id="missable"><option value="all">Any</option><option value="yes">Missable</option><option value="no">Not marked missable</option></select></label>
+        <label class="spoiler-control"><input id="spoilers" type="checkbox" checked> Hide spoilers</label>
+      </div>
+      <div class="list-summary"><span id="result-count">55 trophies</span><span>Tap a row to mark earned · Open a card for the full guide</span></div>
+      <div id="rows" class="trophy-list" aria-live="polite"></div>
+      <p id="empty" class="empty" hidden>No trophies match these filters. Clear a filter or try a shorter search.</p>
+    </section>
+    <section class="roadmap section" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="section-heading"><div><div class="eyebrow">A CLEAN ROUTE THROUGH LEONIDA</div><h2 id="roadmap-title">Roadmap to the platinum</h2></div><span class="section-note">Story first. Sweep the map after.</span></div>
+      <div class="phase-grid" id="phases"></div>
+    </section>
+
+    <footer><span>LEONIDA LEDGER <b>·</b> FIELD GUIDE 01</span><span>All progress stays on this device.</span></footer>
+  </main>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
